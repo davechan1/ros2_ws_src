@@ -1,0 +1,9 @@
+<library path="rviz_custom_plugins">
+
+  <class name="rviz_custom_plugins/SetGoal3D" type="rviz_custom_plugins::tools::GoalTool" base_class_type="rviz_common::Tool">
+    <description>
+      Publish a 3D goal pose for the robot.  After one use, reverts to default tool.
+    </description>
+  </class>
+
+</library>
