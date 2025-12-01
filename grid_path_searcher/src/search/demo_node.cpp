@@ -6,17 +6,6 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 
-#include <ompl-1.7/ompl/config.h>
-#include <ompl-1.7/ompl/base/StateSpace.h>
-#include <ompl-1.7/ompl/base/Path.h>
-#include <ompl-1.7/ompl/base/spaces/RealVectorBounds.h>
-#include <ompl-1.7/ompl/base/spaces/RealVectorStateSpace.h>
-#include <ompl-1.7/ompl/base/StateValidityChecker.h>
-#include <ompl-1.7/ompl/base/OptimizationObjective.h>
-#include <ompl-1.7/ompl/base/objectives/PathLengthOptimizationObjective.h>
-#include <ompl-1.7/ompl/geometric/planners/rrt/RRTstar.h>
-#include <ompl-1.7/ompl/geometric/SimpleSetup.h>
-
 #include <rclcpp/rclcpp.hpp>
 
 #include <sensor_msgs/msg/point_cloud2.hpp>

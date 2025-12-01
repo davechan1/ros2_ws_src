@@ -38,15 +38,6 @@ include_directories(
 )
 
 ###################### Add executable ######################
-add_executable(static_turtle_tf2_broadcaster src/static_turtle_tf2_broadcaster.cpp)
-ament_target_dependencies(static_turtle_tf2_broadcaster
-    rclcpp
-    std_msgs
-    geometry_msgs
-    tf2
-    tf2_ros
-)
-
 add_executable(waypoint_generator src/waypoint_generator.cpp)
 ament_target_dependencies(waypoint_generator
     rclcpp
@@ -65,7 +56,7 @@ install(
   DESTINATION include
 )
 
-install(TARGETS static_turtle_tf2_broadcaster waypoint_generator
+install(TARGETS waypoint_generator
    DESTINATION lib/${PROJECT_NAME}
 )
 

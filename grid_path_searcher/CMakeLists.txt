@@ -25,8 +25,6 @@ find_package(sensor_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
 
-find_package(ompl REQUIRED)
-
 find_package(PCL REQUIRED)
 find_package(pcl_conversions REQUIRED)
 find_package(Eigen3 REQUIRED)
@@ -34,7 +32,6 @@ find_package(Eigen3 REQUIRED)
 ###################### Include directories ######################
 include_directories(
     include
-    /opt/ros/jazzy/include/ompl-1.7
     SYSTEM 
     third_party
     ${Eigen3_INCLUDE_DIRS}
@@ -69,30 +66,10 @@ ament_target_dependencies(demo_node
     pcl_conversions
     PCL
     Eigen3
-    ompl
 )
-
-add_executable(demo_rrt_node
-    src/rrt/demo_rrt_node.cpp
-    src/rrt/rrt_graph_searcher.cpp
-)
-ament_target_dependencies(demo_rrt_node
-    rclcpp
-    std_msgs
-    nav_msgs
-    visualization_msgs
-    pcl_conversions
-    PCL
-    Eigen3
-    ompl
-)
-target_link_libraries(demo_rrt_node
-  /usr/lib/x86_64-linux-gnu/libompl.so.1.7.0
-)
-
 
 ###################### Install targets ######################
-install(TARGETS demo_node demo_rrt_node random_complex
+install(TARGETS demo_node random_complex
     DESTINATION lib/${PROJECT_NAME}
 )
 
