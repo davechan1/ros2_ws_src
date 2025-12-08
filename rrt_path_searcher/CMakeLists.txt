@@ -60,6 +60,7 @@ target_link_libraries(demo_rrt_node
   /usr/lib/x86_64-linux-gnu/libompl.so.1.7.0
 )
 
+
 ###################### Install targets ######################
 install(TARGETS demo_rrt_node
     DESTINATION lib/${PROJECT_NAME}

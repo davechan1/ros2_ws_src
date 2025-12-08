@@ -30,7 +30,6 @@
     <node pkg="waypoint_generator" exec="waypoint_generator" name="waypoint_generator" output="screen">
         <remap from="waypoints"     to="waypoint_generator/waypoints"/>
         <remap from="waypoints_vis" to="waypoint_generator/waypoints_vis"/>
-
         <remap from="goal"          to="goal_pose_3D"/>
     </node>
 
