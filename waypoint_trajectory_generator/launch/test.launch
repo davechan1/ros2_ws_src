@@ -1,0 +1,21 @@
+<launch>
+
+  <node pkg="waypoint_trajectory_generator" exec="trajectory_generator_node" name="trajectory_generator_node" output="screen">
+      <remap from="waypoints" to="/waypoint_generator/waypoints"/>
+      
+      <param name="planning.vel" value="4.0"/>
+      <param name="planning.acc" value="3.0"/>
+      <param name="planning.dev_order" value="4"/>
+      <param name="planning.min_order" value="3"/>
+      <param name="vis.vis_traj_width" value="0.15"/>
+  </node>
+
+  <node pkg="waypoint_generator" exec="waypoint_generator" name="waypoint_generator" output="screen">
+      <remap from="waypoints" to="waypoint_generator/waypoints"/>
+      <remap from="waypoints_vis" to="waypoint_generator/waypoints_vis"/>
+      <remap from="goal" to="goal_pose_3D"/>
+  </node>
+
+  <node pkg="rviz2" exec="rviz2" name="rvizvisualisation" output="log" args="-d $(find-pkg-share waypoint_trajectory_generator)/launch/rviz_config/test_traj.rviz"/>
+
+</launch>

@@ -78,6 +78,7 @@ public:
             "waypoints", 1, std::bind(&DemoNode::rcvWaypointsCallback, this, std::placeholders::_1));
 
         // Publishers
+        grid_path_pub_          = this->create_publisher<nav_msgs::msg::Path>("grid_path",                          1);
         grid_map_vis_pub_       = this->create_publisher<sensor_msgs::msg::PointCloud2>("grid_map_vis",             1);
         grid_path_vis_pub_      = this->create_publisher<visualization_msgs::msg::Marker>("grid_path_vis",          1);
         visited_nodes_vis_pub_  = this->create_publisher<visualization_msgs::msg::Marker>("_visited_nodes_vis_pub", 1);
@@ -114,6 +115,7 @@ private:
     rclcpp::Subscription<nav_msgs::msg::Path>::SharedPtr            pts_sub_;
 
     // Publishers
+    rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr               grid_path_pub_;
     rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr   grid_path_vis_pub_;
     rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr   visited_nodes_vis_pub_;
     rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr     grid_map_vis_pub_;
@@ -192,7 +194,7 @@ private:
             auto visited_nodes = jps_path_finder_->getVisitedNodes();
 
             //Visualize the result
-            visGridPath(grid_path);
+            visPubGridPath(grid_path);
             visVisitedNode(visited_nodes);
 
             //Reset map for next call
@@ -208,7 +210,7 @@ private:
             auto visited_nodes = astar_path_finder_->getVisitedNodes();
 
             //Visualize the result
-            visGridPath(grid_path);
+            visPubGridPath(grid_path);
             visVisitedNode(visited_nodes);
 
             //Reset map for next call
@@ -216,7 +218,7 @@ private:
         }
     }
 
-    void visGridPath( vector<Vector3d> nodes )
+    void visPubGridPath( vector<Vector3d> nodes )
     {   
         visualization_msgs::msg::Marker     node_vis; 
         node_vis.header.frame_id            = "world";
@@ -266,6 +268,37 @@ private:
             node_vis.points.push_back(pt);
         }
 
+        // Create Path message
+        nav_msgs::msg::Path path_msg;
+        path_msg.header.frame_id    = "world";
+        path_msg.header.stamp       = rclcpp::Clock(RCL_SYSTEM_TIME).now();
+
+        for(int i=0; i<int(nodes.size()); i++)
+        {
+            Vector3d coord  = nodes[i];
+            
+            // Add to marker
+            pt.x = coord(0);
+            pt.y = coord(1);
+            pt.z = coord(2);
+            node_vis.points.push_back(pt);
+
+            // Add to path
+            geometry_msgs::msg::PoseStamped pose;
+            pose.header.frame_id = "world";
+            pose.header.stamp = path_msg.header.stamp;
+            pose.pose.position.x = coord(0);
+            pose.pose.position.y = coord(1);
+            pose.pose.position.z = coord(2);
+            pose.pose.orientation.x = 0.0;
+            pose.pose.orientation.y = 0.0;
+            pose.pose.orientation.z = 0.0;
+            pose.pose.orientation.w = 1.0;
+            
+            path_msg.poses.push_back(pose);
+        }
+
+        grid_path_pub_->publish(path_msg);
         grid_path_vis_pub_->publish(node_vis);
     }
 

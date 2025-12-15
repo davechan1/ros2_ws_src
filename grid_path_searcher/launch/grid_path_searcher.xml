@@ -5,7 +5,7 @@
     <arg name="start_x"     default="0.0"/>
     <arg name="start_y"     default="0.0"/>
     <arg name="start_z"     default="1.0"/>
-    <arg name="use_jps"     default="False"/>
+    <arg name="use_jps"     default="True"/>
 
     <node pkg="grid_path_searcher" exec="random_complex" name="random_complex" output="screen">
         <param name="init_state_x"                  value="$(var start_x)"/>
@@ -48,7 +48,17 @@
         <param name="planning/start_y"  value="$(var start_y)"/>
         <param name="planning/start_z"  value="$(var start_z)"/>
         <param name="planning/use_jps"  value="$(var use_jps)"/>
-
     </node>
+
+    <node pkg="waypoint_trajectory_generator" exec="trajectory_generator_node" name="trajectory_generator_node" output="screen">
+        <remap from="waypoints" to="grid_path"/>
+        
+        <param name="planning.vel" value="4.0"/>
+        <param name="planning.acc" value="3.0"/>
+        <param name="planning.dev_order" value="4"/>
+        <param name="planning.min_order" value="3"/>
+        <param name="vis.vis_traj_width" value="0.05"/>
+    </node>
+
 
 </launch>

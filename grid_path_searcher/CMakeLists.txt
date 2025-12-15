@@ -72,7 +72,6 @@ ament_target_dependencies(demo_node
 install(TARGETS demo_node random_complex
     DESTINATION lib/${PROJECT_NAME}
 )
-
 # Install headers
 install(
     DIRECTORY include/
