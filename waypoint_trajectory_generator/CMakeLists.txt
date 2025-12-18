@@ -36,6 +36,7 @@ find_package(nav_msgs REQUIRED)
 
 find_package(Eigen3 REQUIRED)
 find_package(OsqpEigen)
+find_package(tinyspline_ros REQUIRED)
 
 ###################### Include directories ######################
 include_directories(
@@ -59,8 +60,32 @@ ament_target_dependencies(trajectory_generator_node
 )
 target_link_libraries(trajectory_generator_node OsqpEigen::OsqpEigen)
 
+add_executable(framing_test 
+  src/framing_test_node.cpp 
+  src/framing/framing.cpp
+  src/framing/frenet_serret.cpp
+  src/framing/gravity_normal.cpp)
+ament_target_dependencies(framing_test
+    rclcpp
+    Eigen3
+    tinyspline_ros
+)
+
+add_executable(framing_validation
+  src/framing_validation.cpp
+  src/framing/framing.cpp
+  src/framing/frenet_serret.cpp
+  src/framing/gravity_normal.cpp
+)
+ament_target_dependencies(framing_validation
+    rclcpp
+    Eigen3
+    tinyspline_ros
+)
+
+
 ###################### Install targets ######################
-install(TARGETS trajectory_generator_node
+install(TARGETS trajectory_generator_node framing_test framing_validation
    DESTINATION lib/${PROJECT_NAME}
 )
 # Install headers
